@@ -1,0 +1,25 @@
+<resources>
+    <string name="app_name">tictactoe</string>
+    <string name="tic_tac_toe">TIC TAC TOE</string>
+    <string name="by_nishit_mistry">by ~ Nishit Mistry</string>
+    <string name="title_activity_game">Game</string>
+    <!-- Strings used for fragments for navigation -->
+    <string name="first_fragment_label">First Fragment</string>
+    <string name="second_fragment_label">Second Fragment</string>
+    <string name="next">Next</string>
+    <string name="previous">Previous</string>
+
+    <string name="hello_first_fragment">Hello first fragment</string>
+    <string name="hello_second_fragment">Hello second fragment. Arg: %1$s</string>
+    <string name="box_3">box 3</string>
+    <string name="box_2">box 2</string>
+    <string name="box_5">box 5</string>
+    <string name="box_4">box 4</string>
+    <string name="box_6">box 6</string>
+    <string name="box_7">box 7</string>
+    <string name="box_8">box 8</string>
+    <string name="box_9">box 9</string>
+    <string name="main_board">Main Board</string>
+    <string name="box_1">box 1</string>
+    <string name="currentPlayer">O\'s Turn</string>
+</resources>
