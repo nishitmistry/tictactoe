@@ -13,24 +13,19 @@ public class endScreen extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        Intent intent =getIntent();
-        String msg= intent.getStringExtra("winner");
+        Intent intent = getIntent();
+        String msg = intent.getStringExtra("winner");
         setContentView(R.layout.activity_end_screen);
         TextView textView = findViewById(R.id.declareWinner);
-        Button button= findViewById(R.id.play_again);
-        if("0".equals(msg))
-        {
-            textView.setText("O is the winner");
+        Button button = findViewById(R.id.play_again);
+        if ("0".equals(msg)) {
+            textView.setText(R.string.o_winner);
+        } else if ("1".equals(msg)) {
+            textView.setText(R.string.x_winner);
+        } else if ("2".equals(msg)) {
+            textView.setText(R.string.draw);
         }
-        else if("1".equals(msg))
-        {
-            textView.setText("X is the winner");
-        }
-        else if("2".equals(msg))
-        {
-            textView.setText("Its a draw");
-        }
-        Intent goBack = new Intent(this,Game.class);
+        Intent goBack = new Intent(this, Game.class);
         button.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -38,8 +33,9 @@ public class endScreen extends AppCompatActivity {
             }
         });
     }
+
     public void onBackPressed() {
-        Intent goBack = new Intent(this,Game.class);
+        Intent goBack = new Intent(this, Game.class);
         startActivity(goBack);
     }
 }

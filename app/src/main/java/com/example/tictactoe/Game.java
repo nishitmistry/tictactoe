@@ -4,11 +4,12 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.os.Handler;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
 
-public class Game extends AppCompatActivity  implements View.OnClickListener{
+public class Game extends AppCompatActivity implements View.OnClickListener {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -32,30 +33,42 @@ public class Game extends AppCompatActivity  implements View.OnClickListener{
         box_8.setOnClickListener(this);
         box_9.setOnClickListener(this);
     }
+
     // 0 --- O
     // 1 --- X
     // 2 --- EMPTY
-    int player=0;
-    int [] boardState={2,2,2,2,2,2,2,2,2};
-    int [][] winPosition ={ {1,2,3} ,{4,5,6},{7,8,9},{1,5,9},{3,5,7},{1,4,7},{2,5,8},{3,6,9}};
+    int player = 0;
+    //initializing player as 0 as O is first player
+
+    int[] boardState = {2, 2, 2, 2, 2, 2, 2, 2, 2};
+    //initializing the board as empty
+
+    int[][] winPosition = {{1, 2, 3}, {4, 5, 6}, {7, 8, 9}, {1, 5, 9}, {3, 5, 7}, {1, 4, 7}, {2, 5, 8}, {3, 6, 9}};
+    // all the possible winning positions(1 indexed) so you need to minus one from winposition to make
+    //0 indexed
+
     @Override
     public void onClick(View view) {
-        Intent intent =new Intent(this,endScreen.class);
-        ImageView img = (ImageView)view;
+
+        // using onClick method to change the image according the player variable
+        // and also check if the any player won, match draw or the game can continue
+
+        Intent intent = new Intent(this, endScreen.class);
+        ImageView img = (ImageView) view;
         TextView textview = findViewById(R.id.currentPlayer);
         int tag = Integer.parseInt(img.getTag().toString());
-        if(boardState[tag-1]==2) {
+
+        if (boardState[tag - 1] == 2) {
             if (player == 0) {
                 img.setImageResource(R.drawable.o);
                 boardState[tag - 1] = 0;
                 player = 1;
-                textview.setText("X's Turn");
-            }
-            else {
+                textview.setText(R.string.x_turn);
+            } else {
                 img.setImageResource(R.drawable.x);
                 boardState[tag - 1] = 1;
                 player = 0;
-                textview.setText("O's Turn");
+                textview.setText(R.string.o_turn);
             }
             int count = 0;
             for (int i = 0; i < 9; i++) {
@@ -64,60 +77,100 @@ public class Game extends AppCompatActivity  implements View.OnClickListener{
                 }
             }
             if (count == 9) {
-                intent.putExtra("winner", "2");
-                startActivity(intent);
+                //handler.postDelayed is used to add delay between two activities
+                new Handler().postDelayed(new Runnable() {
+                    @Override
+                    public void run() {
+                        //.putExtra is used to send data between two activities
+                        intent.putExtra("winner", "2");
+
+                        //starting endscreen activity
+                        startActivity(intent);
+                    }
+                }, 500);
             }
 
-           for(int [] winpositions:winPosition )
-           {
-               if(boardState[winpositions[0]-1]==boardState[winpositions[1]-1]&&
-                       boardState[winpositions[1]-1]==boardState[winpositions[2]-1]&&
-                       boardState[winpositions[0]-1]!=2)
-               {
-                   if (boardState[winpositions[0]-1]==0) {
-                       intent.putExtra("winner", "0");
-                       startActivity(intent);
-                   }
-                   if (boardState[winpositions[0]-1]==1) {
-                       intent.putExtra("winner", "1");
-                       startActivity(intent);
-                   }
-               }
-           }
+            int checker = winChecker();
+
+            if (checker == 0) {
+                //handler.postDelayed is used to add delay between two activities
+                new Handler().postDelayed(new Runnable() {
+                    @Override
+                    public void run() {
+                        //.putExtra is used to send data between two activities
+                        intent.putExtra("winner", "0");
+
+                        //starting endscreen activity
+                        startActivity(intent);
+                    }
+                }, 500);
+            }
+
+            if (checker == 1) {
+                //handler.postDelayed is used to add delay between two activities
+                new Handler().postDelayed(new Runnable() {
+                    @Override
+                    public void run() {
+
+                        //.putExtra is used to send data between two activities
+                        intent.putExtra("winner", "1");
+
+                        //starting endscreen activity
+                        startActivity(intent);
+                    }
+                }, 500);
+            }
+
+//           we can also check winning position like this
+
+//           for(int [] winpositions:winPosition )
+//           {
+//               if(boardState[winpositions[0]-1]==boardState[winpositions[1]-1]&&
+//                       boardState[winpositions[1]-1]==boardState[winpositions[2]-1]&&
+//                       boardState[winpositions[0]-1]!=2)
+//               {
+//                   if (boardState[winpositions[0]-1]==0) {
+//                       intent.putExtra("winner", "0");
+//                       startActivity(intent);
+//                   }
+//                   if (boardState[winpositions[0]-1]==1) {
+//                       intent.putExtra("winner", "1");
+//                       startActivity(intent);
+//                   }
+//               }
+//           }
 
 
         }
     }
-//    public int winChecker()
-//    {
-//        // count1 for o player
-//        // count2 for x player
-//        int count1=0;
-//        int count2=0;
-//        for(int i=0;i<8;i++)
-//        {
-//            count1=0;
-//            count2=0;
-//            for(int j=0;j<3;j++) {
-//                if(boardState[winPosition[i][j]-1]==0)
-//                {
-//                    count1++;
-//                }
-//                if(boardState[winPosition[i][j]-1]==1)
-//                {
-//                    count2++;
-//                }
-//            }
-//            if(count1==3)
-//            {
-//                return 0;
-//            }
-//            if(count2==3)
-//            {
-//                return 1;
-//            }
-//        }
-//        return 2;
-//    }
 
+    // method that checks if any player won and returns 0,1 or 2
+    //0 -- O is the  winner
+    //1 -- X is the  winner
+    //2 -- No one won
+    public int winChecker() {
+        // count1 for o player
+        // count2 for x player
+        int count1;
+        int count2;
+        for (int i = 0; i < 8; i++) {
+            count1 = 0;
+            count2 = 0;
+            for (int j = 0; j < 3; j++) {
+                if (boardState[winPosition[i][j] - 1] == 0) {
+                    count1++;
+                }
+                if (boardState[winPosition[i][j] - 1] == 1) {
+                    count2++;
+                }
+            }
+            if (count1 == 3) {
+                return 0;// O is the winner
+            }
+            if (count2 == 3) {
+                return 1;// X is the winner
+            }
+        }
+        return 2;// no one won
+    }
 }

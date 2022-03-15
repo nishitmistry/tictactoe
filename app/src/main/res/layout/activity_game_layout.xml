@@ -140,7 +140,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:fontFamily="cursive"
-        android:text="@string/currentPlayer"
+        android:text="@string/o_turn"
         android:textSize="48sp"
         app:layout_constraintBottom_toTopOf="@+id/mainboard"
         app:layout_constraintEnd_toEndOf="parent"

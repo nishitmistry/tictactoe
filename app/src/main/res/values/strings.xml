@@ -21,5 +21,11 @@
     <string name="box_9">box 9</string>
     <string name="main_board">Main Board</string>
     <string name="box_1">box 1</string>
-    <string name="currentPlayer">O\'s Turn</string>
+    <string name="o_turn">O\'s Turn</string>
+    <string name="x_turn">X\'s Turn</string>
+    <string name="o_winner">O is the winner</string>
+    <string name="x_winner">X is the winner</string>
+    <string name="draw">Its a draw</string>
+
+
 </resources>
